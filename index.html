@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceTracker - Controle de Despesas</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="gradient-bg text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="logo.png" width="75" alt="FinanceTracker logo with dollar sign and graph icon in modern white style" class="rounded-full">
+                    <div>
+                        <h1 class="text-2xl font-bold">FinanceTracker</h1>
+                        <p class="text-white/80">Controle suas finanças com inteligência</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-white/80 text-sm">Último update</p>
+                    <p class="font-semibold" id="last-update">Hoje</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="income-card rounded-xl p-6 text-white card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-white/80 text-sm">Receitas</p>
+                        <p class="text-2xl font-bold" id="total-income">R$ 0,00</p>
+                        <p class="text-white/70 text-xs mt-1">Este mês</p>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-lg">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expense-card rounded-xl p-6 text-white card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-white/80 text-sm">Despesas</p>
+                        <p class="text-2xl font-bold" id="total-expenses">R$ 0,00</p>
+                        <p class="text-white/70 text-xs mt-1">Este mês</p>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-lg">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="balance-card rounded-xl p-6 text-white card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-white/80 text-sm">Saldo</p>
+                        <p class="text-2xl font-bold" id="total-balance">R$ 0,00</p>
+                        <p class="text-white/70 text-xs mt-1" id="balance-status">Equilibrado</p>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-lg">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Nova Transação</h2>
+                    <form id="transaction-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                            <select id="transaction-type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="expense">Despesa</option>
+                                <option value="income">Receita</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                            <input type="text" id="transaction-description" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ex: Almoço, Salário, Compras" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Valor (R$)</label>
+                            <input type="number" id="transaction-amount" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="0,00" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                            <select id="transaction-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="alimentacao">🍽️ Alimentação</option>
+                                <option value="transporte">🚗 Transporte</option>
+                                <option value="moradia">🏠 Moradia</option>
+                                <option value="saude">🏥 Saúde</option>
+                                <option value="educacao">📚 Educação</option>
+                                <option value="lazer">🎮 Lazer</option>
+                                <option value="trabalho">💼 Trabalho</option>
+                                <option value="outros">📦 Outros</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data</label>
+                            <input type="date" id="transaction-date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        </div>
+
+                        <button type="submit" class="w-full gradient-bg text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity">
+                            Adicionar Transação
+                        </button>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Filtros</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Período</label>
+                            <select id="period-filter" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="all">Todos</option>
+                                <option value="today">Hoje</option>
+                                <option value="week">Esta Semana</option>
+                                <option value="month">Este Mês</option>
+                                <option value="year">Este Ano</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                            <select id="type-filter" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="all">Todos</option>
+                                <option value="income">Receitas</option>
+                                <option value="expense">Despesas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                            <select id="category-filter" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="all">Todas</option>
+                                <option value="alimentacao">🍽️ Alimentação</option>
+                                <option value="transporte">🚗 Transporte</option>
+                                <option value="moradia">🏠 Moradia</option>
+                                <option value="saude">🏥 Saúde</option>
+                                <option value="educacao">📚 Educação</option>
+                                <option value="lazer">🎮 Lazer</option>
+                                <option value="trabalho">💼 Trabalho</option>
+                                <option value="outros">📦 Outros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Despesas por Categoria</h3>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Evolução Mensal</h3>
+                        <div class="chart-container">
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Transações Recentes</h3>
+                        <div class="flex space-x-2">
+                            <button id="export-btn" class="px-4 py-2 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition-colors">
+                                Exportar
+                            </button>
+                            <button id="clear-data-btn" class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600 transition-colors">
+                                Limpar Tudo
+                            </button>
+                        </div>
+                    </div>
+                    <div class="space-y-2 max-h-96 overflow-y-auto" id="transactions-list">
+                        <div class="text-center py-8 text-gray-500">
+                            <img src="https://placehold.co/200x150" alt="Empty wallet illustration with coins and dollar bills in modern flat design style" class="mx-auto mb-4 rounded-lg">
+                            <p>Nenhuma transação ainda. Adicione sua primeira movimentação!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-modal" class="fixed inset-0 modal-overlay hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md mx-4">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Editar Transação</h3>
+            <form id="edit-form" class="space-y-4">
+                <input type="hidden" id="edit-id">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                    <select id="edit-type" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="expense">Despesa</option>
+                        <option value="income">Receita</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                    <input type="text" id="edit-description" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Valor (R$)</label>
+                    <input type="number" id="edit-amount" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                    <select id="edit-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="alimentacao">🍽️ Alimentação</option>
+                        <option value="transporte">🚗 Transporte</option>
+                        <option value="moradia">🏠 Moradia</option>
+                        <option value="saude">🏥 Saúde</option>
+                        <option value="educacao">📚 Educação</option>
+                        <option value="lazer">🎮 Lazer</option>
+                        <option value="trabalho">💼 Trabalho</option>
+                        <option value="outros">📦 Outros</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Data</label>
+                    <input type="date" id="edit-date" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                </div>
+                <div class="flex space-x-3">
+                    <button type="submit" class="flex-1 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">
+                        Salvar
+                    </button>
+                    <button type="button" id="cancel-edit-btn" class="flex-1 bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
