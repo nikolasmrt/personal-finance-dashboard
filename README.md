@@ -11,7 +11,7 @@ Feito em **HTML puro**, focado na experiência rápida e direta.
 ## Como usar
 
 1. Clone ou baixe esse repo.
-2. Abra o arquivo `calculadora-despesas.html` no seu navegador (arrasta e solta, simples assim).
+2. Abra o arquivo `index.html` no seu navegador (arrasta e solta, simples assim).
 3. Preencha seus valores, aplique os cálculos — voilà! Suas contas ficam claras como poesia.
 
 ## Por que vale a pena
