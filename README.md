@@ -1,39 +1,16 @@
-# Projeto Finance Tracker
+# React + Vite
 
-> Se você chegou até aqui, parabéns — o caos das finanças vai conhecer seu fim! Eu digo na lata: esse é o seu portal para domar despesas, cultivar tranquilidade financeira e transbordar confiança.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Sobre
+Currently, two official plugins are available:
 
-Um tracker de finanças simples, bonito e eficiente. Chega de planilhas que mais pareciam gambiarras da era do gelo: aqui, você calcula, vê resultados e segue confiante no dia a dia.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-Feito em **HTML puro**, focado na experiência rápida e direta.
+## React Compiler
 
-## Como usar
+The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
 
-1. Clone ou baixe esse repo.
-2. Abra o arquivo `index.html` no seu navegador (arrasta e solta, simples assim).
-3. Preencha seus valores, aplique os cálculos — voilà! Suas contas ficam claras como poesia.
+## Expanding the ESLint configuration
 
-## Por que vale a pena
-
-- **Sem enrolação**: só o essencial, sem scripts complicados ou dependência de nada.
-- **Fácil de entender**: se HTML fosse música, esse aqui seria um jazz suave — direto, vibrante e cheio de alma.
-- **Ponto de partida**: tá pronta pra crescer — adiciona CSS, JavaScript, back-end ou transforma no app que seu coração quiser.
-
-## Próximos passos possíveis
-
-- Dar carinho com um layout estiloso em CSS ou Tailwind.
-- Tornar interativo com JavaScript — visualização imediata das despesas.
-- Subir no Vercel, Netlify ou outro canto pra exibir pra quem quiser ver.
-- Transformar isso num app completo com Node, React, Next.js, se quiser caos controlado.
-
-## Autoria e Licença
-
-Feito com amor e coragem por **Nikolas** — a compositora que também manda bem nas finanças. Jogue flores, críticas ou ideias via Issues ou Pull Requests (se o mundo quiser colaborar).
-
-Licença **MIT**. Use, copie, remix, espalhe.
-
----
-
-**Resumo final**: simples, afiado e pronto pra você transformar esse HTML bonitinho num império financeiro digital. Bora dominar esse universo — e que venha a próxima versão cheia de glitter!**
-
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
