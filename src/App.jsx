@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { ToastContainer } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 import Login from "./pages/Login";
+import Register from "./pages/Register"; 
 import Dashboard from "./pages/Dashboard";
 
 function PrivateRoute({ children }) {
@@ -13,8 +16,11 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ToastContainer autoClose={3000} position="top-right" />
+        
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} /> 
           <Route 
             path="/" 
             element={

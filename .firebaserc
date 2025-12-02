@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "finance-tracker-5f18c",
+    "nkn": "nkn-tracker"
+  },
+  "targets": {},
+  "etags": {}
+}

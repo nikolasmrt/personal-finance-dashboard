@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      setError("");
+      setLoading(true);
       await login(email, password);
       navigate("/");
     } catch (err) {
       console.error(err);
-      setError("Erro ao entrar. Verifique email e senha.");
+      toast.error("Email ou senha incorretos.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -29,38 +32,39 @@ export default function Login() {
           <p className="text-gray-500 mt-2">Controle financeiro familiar</p>
         </div>
         
-        {error && <div className="bg-red-100 text-red-600 p-3 rounded mb-4 text-sm">{error}</div>}
-        
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input 
-              type="email" 
-              required 
+              type="email" required 
               className="w-full px-4 py-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+              value={email} onChange={(e) => setEmail(e.target.value)} 
               placeholder="exemplo@email.com"
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Senha</label>
             <input 
-              type="password" 
-              required 
+              type="password" required 
               className="w-full px-4 py-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
+              value={password} onChange={(e) => setPassword(e.target.value)} 
               placeholder="******"
             />
           </div>
           <button 
-            type="submit" 
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity shadow-md"
+            type="submit" disabled={loading}
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity shadow-md disabled:opacity-50"
           >
-            Entrar
+            {loading ? "Entrando..." : "Entrar"}
           </button>
         </form>
+
+        <div className="mt-6 text-center text-sm text-gray-600">
+          Não tem conta?{" "}
+          <Link to="/register" className="text-indigo-600 font-semibold hover:underline">
+            Crie agora grátis
+          </Link>
+        </div>
       </div>
     </div>
   );
